@@ -15,13 +15,13 @@ export default function Validation() {
   const [lname, setLname] = useState("");
   const [exp, setExp] = useState("");
 
-  // const [focus, setFocus] = useState(false);
+  
 
-  // const[flagCN, setFlagCN] = useState(true);
-  // const[flagD, setFlagD] = useState(true);
-  // const[flagCCV, setFlagCCV] = useState(true);
-  // const[flagF, setFlagF] = useState(true);
-  // const[flagL, setFlagL] = useState(true);
+  const[flagCN, setFlagCN] = useState('green');
+   const[flagD, setFlagD] = useState('green');
+   const[flagCCV, setFlagCCV] = useState('green');
+   const[flagF, setFlagF] = useState('green');
+   const[flagL, setFlagL] = useState('green');
 
   var resultCN = true;
   var resultCCV = true;
@@ -55,10 +55,10 @@ export default function Validation() {
     if (resultCN && resultCCV && resultD && resultF && resultL) {
       Alert.alert("Payemnet Sucesfull");
       console.log("Payment Successfull");
-
+     // setColorChanger("green");
       
     } else {
-      colorChanger();
+     // setColorChanger("red");
     }
     if(resultL==false)testRef5.current.focus();
     if(resultF==false)testRef4.current.focus();
@@ -66,7 +66,7 @@ export default function Validation() {
     if(resultD==false)testRef2.current.focus();
     if(resultCN==false)testRef1.current.focus();
   };
-  const colorChanger = (color) => {};
+
   function cardNumberValidator(cardNumber) {
     var numSum = 0;
     var value;
@@ -82,15 +82,15 @@ export default function Validation() {
       numSum += value;
     }
     resultCN = numSum % 10 == 0;
-    // setFlagCN(resultCN);
-    console.log("cnum " + resultCN);
+    
+    setFlagCN(resultCN ? "green" : "red");
+
     return resultCN;
   }
 
   const ccvValidator = (ccv) => {
     resultCCV = parseInt(ccv) >= 100 && parseInt(ccv) <= 9999;
-    // setFlagCCV(resultCCV);
-    console.log("ccv " + resultCCV);
+    setFlagCCV(resultCCV ? "green":"red");
     return resultCCV;
   };
 
@@ -98,23 +98,22 @@ export default function Validation() {
     var mm = date.split("/")[0];
     var yy = date.split("/")[1];
 
-    // Regex for date validation
 
     var regex = "^[0-9]{2}$";
 
     if (!mm.match(regex) || !yy.match(regex)) {
       resultD = false;
-      // setFlagD(false);
+      setFlagD("red");
       console.log("date regex " + false);
       return false;
     } else if (parseInt(mm) >= 1 && parseInt(mm) <= 12) {
       resultD = true;
-      // setFlagD(true);
+      setFlagD("green");
       console.log("date " + true);
       return true;
     }
     resultD = false;
-    // setFlagD(false);
+    setFlagD("red");
     console.log("date " + false);
     return false;
   };
@@ -123,12 +122,12 @@ export default function Validation() {
     var regex = "^[A-Za-zs]+$";
     if (firstName.match(regex)) {
       resultF = true;
-      // setFlagF(true);
+      setFlagF("green");
       console.log("fname " + true);
       return true;
     }
     resultF = false;
-    //    setFlagF(false);
+       setFlagF("red");
     console.log("fname " + false);
     return false;
   };
@@ -137,12 +136,12 @@ export default function Validation() {
     var regex = "^[A-Za-zs]+$";
     if (lastName.match(regex)) {
       resultL = true;
-      // setFlagL(true);
+      setFlagL("green");
       console.log("lname " + true);
       return true;
     }
     resultL = false;
-    // setFlagL(false)
+    setFlagL("red")
     console.log("lname " + false);
     return false;
   };
@@ -160,7 +159,7 @@ export default function Validation() {
           label="Card Number"
           value={cardNumber}
           onChangeText={(text) => setCardNumber(text)}
-          theme={{ colors: { primary: "green" } }}
+          theme={{ colors: { primary: flagCN } }}
           keyboardType="phone-pad"
           ref={testRef1}
         />
@@ -173,7 +172,7 @@ export default function Validation() {
             label="MM/YY"
             value={exp}
             onChangeText={(text) => setExp(text)}
-            theme={{ colors: { primary: "green" } }}
+            theme={{ colors: { primary: flagD } }}
             keyboardType="phone-pad"
             ref={testRef2}
           />
@@ -185,7 +184,7 @@ export default function Validation() {
             label="Security Code"
             value={code}
             onChangeText={(text) => setCode(text)}
-            theme={{ colors: { primary: "green" } }}
+            theme={{ colors: { primary: flagCCV } }}
             keyboardType="phone-pad"
             secureTextEntry={true}
             ref={testRef3}
@@ -200,7 +199,7 @@ export default function Validation() {
             label="First name"
             value={name}
             onChangeText={(text) => setName(text)}
-            theme={{ colors: { primary: "green" } }}
+            theme={{ colors: { primary: flagF } }}
             ref={testRef4}
           />
 
@@ -213,7 +212,7 @@ export default function Validation() {
             label="Last name"
             value={lname}
             onChangeText={(text) => setLname(text)}
-            theme={{ colors: { primary: "green" } }}
+            theme={{ colors:{primary:flagL}}}
              ref={testRef5}
           /> 
         </View>
@@ -222,7 +221,7 @@ export default function Validation() {
         <Button
           mode="contained"
           onPress={submit}
-          theme={{ colors: { primary: "#2150f5" } }}
+          theme={{ colors: { primary: "green" } }}
         >
           Submit
         </Button>
